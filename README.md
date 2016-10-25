@@ -1,5 +1,5 @@
-# 自动登录CJLU
-仅供在[中国计量大学](http://www.cjlu.edu.cn)使用
+# 自动登录校园网
+ [中国计量大学](http://www.cjlu.edu.cn)
 #### @date:20161019
 #### @author:arckalsun@gmail.com
 # 
