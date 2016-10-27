@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-# coding=utf8
-# è‡ªåŠ¨ç™»å½•CJLU ,ä»…ä¾›åœ¨ä¸­å›½è®¡é‡å¤§å­¦ä½¿ç”¨
+# coding:utf-8
+# ×Ô¶¯µÇÂ¼CJLU ,½ö¹©ÔÚÖĞ¹ú¼ÆÁ¿´óÑ§Ê¹ÓÃ
 # @date:20161019
 # @author:arckalsun@gmail.com
 # 
-# å‘½ä»¤è¡Œç”¨æ³•ï¼špython login.py username password vpnname vpnusername vpnpassword
-# å¯ä»¥å†™ä¸ªæ‰¹å¤„ç†æ–‡ä»¶ï¼Œå†™å…¥å‘½ä»¤ï¼Œå­˜ä¸ºå¼€æœºè‡ªå¯åŠ¨è„šæœ¬
-# æ­¤ç¨‹åºå°šæœªå®Œå–„ï¼Œä¸è¶³ä¹‹å¤„è¯·å¤§å®¶åŸè°…ï¼Œæ¬¢è¿å¤§å®¶ä¼˜åŒ–
+# ÃüÁîĞĞÓÃ·¨£ºpython login.py username password vpnname vpnusername vpnpassword
+# ¿ÉÒÔĞ´¸öÅú´¦ÀíÎÄ¼ş£¬Ğ´ÈëÃüÁî£¬´æÎª¿ª»ú×ÔÆô¶¯½Å±¾
+# ´Ë³ÌĞòÉĞÎ´ÍêÉÆ£¬²»×ãÖ®´¦Çë´ó¼ÒÔ­ÁÂ£¬»¶Ó­´ó¼ÒÓÅ»¯
 #
 import urllib2,urllib
 import sys
@@ -33,36 +33,54 @@ class CJLULogin:
     print "Local IP : " + localip
     
     def __init__(self, username, password):
-        print "init..."
+        
         self.user = username
         self.passwd = password
         
+        
+    def start(self,vpn):
+    
         status = self.check()
+        
+            
+        
         if status == 0:
-            #å†…ç½‘å¤–ç½‘éƒ½ä¸å¯è®¿é—®
-            self.login(self.user, self.passwd, flag = 0)
-            self.__init__(username, password)
+            #ÄÚÍøÍâÍø¶¼²»¿É·ÃÎÊ
+            
+            if vpn == "enable":
+                print "Ö±½ÓÊ¹ÓÃVPNÁªÍø"
+                self.login(self.user, self.passwd, flag = 1)
+            else:
+                print "ÏÈÁ¬½ÓĞ£Ô°Íø£¬¿´ÄÜ·ñ·ÃÎÊÍâÍø"
+                self.login(self.user, self.passwd, flag = 0)
+            #ÔÙ¼ì²âÒ»±éÊÇ·ñ³É¹¦ÁªÍø
+            self.start(vpn)
             pass
         elif status == 1:
-            #ä¸å¯è®¿é—®å†…ç½‘ï¼Œå¯ä»¥è®¿é—®å¤–ç½‘
-            pass
+            #²»¿É·ÃÎÊÄÚÍø£¬¿ÉÒÔ·ÃÎÊÍâÍø
+            print "ÒÑÁ¬Í¨ÍâÍø£¬²»ÄÜ·ÃÎÊÄÚÍø"
+            
         elif status == 2:
-            #å¯ä»¥è®¿é—®å†…ç½‘ï¼Œä¸å¯è®¿é—®å¤–ç½‘
+            #¿ÉÒÔ·ÃÎÊÄÚÍø£¬²»¿É·ÃÎÊÍâÍø
             self.logout()
             self.login(self.user, self.passwd, flag = 1)
             self.connectVPN(vpnname,vpnusername,vpnpassword)
-            self.__init__(username, password)
-            pass
+            self.start(vpn)
+            
         elif status == 3:
-            #å†…ç½‘å¤–ç½‘éƒ½å¯ä»¥è®¿é—®
-            pass
-        
+            if vpn == "enable":
+                self.logout()
+                self.login(self.user, self.passwd, flag = 1)
+                self.connectVPN(vpnname,vpnusername,vpnpassword)
+                self.start()
+            print "ÒÑÁ¬Í¨ÍâÍø £¬¿ÉÒÔ·ÃÎÊÄÚÍø"
+            #ÄÚÍøÍâÍø¶¼¿ÉÒÔ·ÃÎÊ  
     # check network status
-    # è¿”å›ç ï¼š 
-    #           0. å†…ç½‘ä¸é€šï¼Œå¤–ç½‘ä¸é€š
-    #           1. å†…ç½‘ä¸é€šï¼Œå¤–ç½‘é€š
-    #           2. å†…ç½‘é€šï¼Œ  å¤–ç½‘ä¸é€š
-    #           3. å†…ç½‘é€šï¼Œ  å¤–ç½‘é€š
+    # ·µ»ØÂë£º 
+    #           0. ÄÚÍø²»Í¨£¬ÍâÍø²»Í¨
+    #           1. ÄÚÍø²»Í¨£¬ÍâÍøÍ¨
+    #           2. ÄÚÍøÍ¨£¬  ÍâÍø²»Í¨
+    #           3. ÄÚÍøÍ¨£¬  ÍâÍøÍ¨
     def check(self):
         print "check..."
         InnerUrl = "http://my.cjlu.edu.cn/"
@@ -97,7 +115,7 @@ class CJLULogin:
             
             
     # login
-    # äº’è”ç½‘ç™»å½• flag = 1, å¦åˆ™ä¸º 0
+    # »¥ÁªÍøµÇÂ¼ flag = 1, ·ñÔòÎª 0
     def login(self,username,password,flag = 0):
         print "login..."
         url = "https://portal2.cjlu.edu.cn:801/eportal/?c=ACSetting&a=Login&wlanuserip="+self.localip+"&wlanacip=null&wlanacname=&port=&iTermType=1&mac=000000000000&ip="+self.localip+"&redirect=null"
@@ -124,6 +142,7 @@ class CJLULogin:
         response = None
         html = None
         error_info = None
+        #print request
         response = urllib2.urlopen(request,data)
         info = response.info()
         #print info
@@ -154,10 +173,13 @@ class CJLULogin:
         
         if len(html) != 10677:
             print "logout error"
-    # è¿æ¥éšeè¡Œ æˆ– é—ªè®¯
-    # éœ€è¦äº‹å…ˆé…ç½®å¥½VPN
-    # è¯·äº‹å…ˆåœ¨æœ¬æœºåˆ›å»ºå¥½VPNï¼Œæ‰èƒ½ç”¨æ­¤å‡½æ•°å¯åŠ¨
+    # Á¬½ÓËæeĞĞ »ò ÉÁÑ¶
+    # ĞèÒªÊÂÏÈÅäÖÃºÃVPN
+    # ÇëÊÂÏÈÔÚ±¾»ú´´½¨ºÃVPN£¬²ÅÄÜÓÃ´Ëº¯ÊıÆô¶¯
     def connectVPN(self, vpnname, vpnusername, vpnpassword):
+	if vpnname==None or vpnusername== None or vpnpassword==None:
+		print "no vpn"
+		return
         if os.name == 'nt':     # win32
             os.system("rasdial " + vpnname +" " + vpnusername + " " + vpnpassword)
         else:       #unix
@@ -166,11 +188,12 @@ class CJLULogin:
     
 if __name__ == '__main__':
 
-    username = None
-    password = None
+    
     vpnname = None
     vpnusername = None
     vpnpassword = None
+    # default not use VPN, False = not use, True = use
+    defaultUseVPN = None
     
     if len(sys.argv) < 3:
         #print "Usage: " + sys.argv([0] + " username, password"
@@ -186,8 +209,16 @@ if __name__ == '__main__':
         vpnname = sys.argv[3]
         vpnusername = sys.argv[4]
         vpnpassword = sys.argv[5]
-    
+        defaultUseVPN = sys.argv[6]
     cjlu = CJLULogin(username, password)
+    if not defaultUseVPN == "":
+        print "ÓÅÏÈÊ¹ÓÃÍâÍø"
+        cjlu.start("enable")
+    else:
+        print "ÓÅÏÈÊ¹ÓÃĞ£Ô°Íø"
+        cjlu.start("disable")
+    
+    
     # check again
     # cjlu.__init__(username, password)
 
