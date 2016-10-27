@@ -4,7 +4,19 @@
 # @date:20161019
 # @author:arckalsun@gmail.com
 # 
-# 命令行用法：python login.py username password vpnname vpnusername vpnpassword
+#  命令行用法：
+# 第一种：
+#` python login.py username password vpnname vpnusername vpnpassword`
+#  第二种：
+#` python login.py username password vpnname vpnusername vpnpassword usevpn`
+#  参数解释：
+# username 内网账号
+# password 内网密码
+# vpnname VPN名字
+# vpnusername VPN 账号，即外网账号
+# vpnpassword VPN 密码，即外网密码
+# usevpn 使用vpn，可以是任意非空字符串
+
 # 可以写个批处理文件，写入命令，存为开机自启动脚本
 # 此程序尚未完善，不足之处请大家原谅，欢迎大家优化
 #
