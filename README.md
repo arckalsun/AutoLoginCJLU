@@ -4,26 +4,23 @@
 #### @author:arckalsun@gmail.com
 # 
 ### 命令行用法：
-#### 第一种：
-` python login.py username password vpnname vpnusername vpnpassword`
-#### 第二种：
-` python login.py username password vpnname vpnusername vpnpassword usevpn`
+` python login.py username password vpnname vpnusername vpnpassword [anything]`
 #### 参数解释：
-* username 内网账号
-* password 内网密码
-* vpnname VPN名字
-* vpnusername VPN 账号，即外网账号
-* vpnpassword VPN 密码，即外网密码
-* usevpn 使用vpn，可以是任意非空字符串
+* `username` 内网账号
+* `password` 内网密码
+* `vpnname` VPN名字
+* `vpnusername` VPN 账号，即外网账号
+* `vpnpassword` VPN 密码，即外网密码
+* `[anything]` 这是一个可选选项，值可以为任意字符串。如果加上这个值，则直接使用VPN联网
 
 ### 设置为开机启动
 
 * 1 先配置好VPN，这样可以不用随e行 或 闪讯来联网了。
 * 2  新建一个文件，后缀名为bat,在里面写入一行：
 ``` 
-python [F:\github\AutoLoginCJLU\AutoLoginCJLU\CJLULogin.py] username password vpnname vpnusername vpnpassword
+python F:\github\AutoLoginCJLU\CJLULogin.py username password vpnname vpnusername vpnpassword  [anything]
 ```  
-     把[ ]内容换为你自己电脑上CJLULogin.py的绝对路径
+     把[F:\github\AutoLoginCJLU\CJLULogin.py]内容换为你自己电脑上CJLULogin.py的绝对路径
 
 * 3  将此bat文件保存到[启动]文件夹，打开方式为【开始】--【所有程序】--【启动】
 
