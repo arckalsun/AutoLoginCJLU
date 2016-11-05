@@ -27,9 +27,9 @@ python F:\github\AutoLoginCJLU\CJLULogin.py username password vpnname vpnusernam
 ##Windows系统
 ![vpn_win.png](vpn_win.png)
 ### 请先在本机配置好VPN,具体方法参见http://blog.csdn.net/u014108439/article/details/51591126
-## Unix系统
+## 类Unix系统
 ### 请自行Google相关命令
-### 本程序在Windows系统下可以运行，Linux系统请自行测试
+### 本程序在Windows系统下可以运行，类Unux系统请自行测试
 ### 可以写个批处理文件，写入命令，存为开机自启动脚本
 ### 
 ## 其实这个程序有很多提高的地方，可以设计的更精巧，更智能和人性化。唉，我也是太懒了，就图个能用就行了。抛砖引玉，希望大家写出更好的程序。
