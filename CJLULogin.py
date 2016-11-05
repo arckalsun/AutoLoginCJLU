@@ -5,17 +5,14 @@
 # @author:arckalsun@gmail.com
 # 
 #  命令行用法：
-# 第一种：
-#` python login.py username password vpnname vpnusername vpnpassword`
-#  第二种：
-#` python login.py username password vpnname vpnusername vpnpassword usevpn`
+#` python login.py username password vpnname vpnusername vpnpassword [anything]`
 #  参数解释：
 # username 内网账号
 # password 内网密码
 # vpnname VPN名字
 # vpnusername VPN 账号，即外网账号
 # vpnpassword VPN 密码，即外网密码
-# usevpn 使用vpn，可以是任意非空字符串
+# [anything] 这是一个可选选项，值可以为任意字符串。如果加上这个值，则直接使用VPN联网
 
 # 可以写个批处理文件，写入命令，存为开机自启动脚本
 # 此程序尚未完善，不足之处请大家原谅，欢迎大家优化
@@ -84,7 +81,7 @@ class CJLULogin:
                 self.logout()
                 self.login(self.user, self.passwd, flag = 1)
                 self.connectVPN(vpnname,vpnusername,vpnpassword)
-                self.start()
+                self.start(vpn)
             print "已连通外网 ，可以访问内网"
             #内网外网都可以访问  
     # check network status
@@ -221,8 +218,13 @@ if __name__ == '__main__':
         vpnname = sys.argv[3]
         vpnusername = sys.argv[4]
         vpnpassword = sys.argv[5]
-        defaultUseVPN = sys.argv[6]
+        try:
+            defaultUseVPN = sys.argv[6]
+        except:
+            defaultUseVPN = ""
+            pass
     cjlu = CJLULogin(username, password)
+    
     if not defaultUseVPN == "":
         print "优先使用外网"
         cjlu.start("enable")
