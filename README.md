@@ -34,7 +34,7 @@ python [F:\github\AutoLoginCJLU\AutoLoginCJLU\CJLULogin.py] username password vp
 ### 请自行Google相关命令
 ### 本程序在Windows系统下可以运行，Linux系统请自行测试
 ### 可以写个批处理文件，写入命令，存为开机自启动脚本
-### 此程序尚未完善，不足之处请大家原谅，欢迎大家优化完善本程序
-#
+### 
+## 其实这个程序有很多提高的地方，可以设计的更精巧，更智能和人性化。唉，我也是太懒了，就图个能用就行了。抛砖引玉，希望大家写出更好的程序。
 #
 #
