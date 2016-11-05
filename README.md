@@ -4,7 +4,7 @@
 #### @author:arckalsun@gmail.com
 # 
 ### 命令行用法：
-` python login.py username password vpnname vpnusername vpnpassword [anything]`
+` python CJLULogin.py username password vpnname vpnusername vpnpassword [anything]`
 #### 参数解释：
 * `username` 内网账号
 * `password` 内网密码
