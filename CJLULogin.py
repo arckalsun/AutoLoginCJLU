@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 # coding:utf-8
-# ×Ô¶¯µÇÂ¼CJLU ,½ö¹©ÔÚÖÐ¹ú¼ÆÁ¿´óÑ§Ê¹ÓÃ
+# 自动登录CJLU ,仅供在中国计量大学使用
 # @date:20161019
 # @author:arckalsun@gmail.com
 # 
-#  ÃüÁîÐÐÓÃ·¨£º
+#  命令行用法：
 #` python login.py username password vpnname vpnusername vpnpassword [anything]`
-#  ²ÎÊý½âÊÍ£º
-# username ÄÚÍøÕËºÅ
-# password ÄÚÍøÃÜÂë
-# vpnname VPNÃû×Ö
-# vpnusername VPN ÕËºÅ£¬¼´ÍâÍøÕËºÅ
-# vpnpassword VPN ÃÜÂë£¬¼´ÍâÍøÃÜÂë
-# [anything] ÕâÊÇÒ»¸ö¿ÉÑ¡Ñ¡Ïî£¬Öµ¿ÉÒÔÎªÈÎÒâ×Ö·û´®¡£Èç¹û¼ÓÉÏÕâ¸öÖµ£¬ÔòÖ±½ÓÊ¹ÓÃVPNÁªÍø
+#  参数解释：
+# username 内网账号
+# password 内网密码
+# vpnname VPN名字
+# vpnusername VPN 账号，即外网账号
+# vpnpassword VPN 密码，即外网密码
+# [anything] 这是一个可选选项，值可以为任意字符串。如果加上这个值，则直接使用VPN联网
 
-# ¿ÉÒÔÐ´¸öÅú´¦ÀíÎÄ¼þ£¬Ð´ÈëÃüÁî£¬´æÎª¿ª»ú×ÔÆô¶¯½Å±¾
-# ´Ë³ÌÐòÉÐÎ´ÍêÉÆ£¬²»×ãÖ®´¦Çë´ó¼ÒÔ­ÁÂ£¬»¶Ó­´ó¼ÒÓÅ»¯
+# 可以写个批处理文件，写入命令，存为开机自启动脚本
+# 此程序尚未完善，不足之处请大家原谅，欢迎大家优化
 #
 import urllib2,urllib
 import sys
@@ -54,29 +54,29 @@ class CJLULogin:
             
         
         if status == 0:
-            #ÄÚÍøÍâÍø¶¼²»¿É·ÃÎÊ
+            #?úí?íaí???2??é·??ê
             
             if vpn == "enable":
-                print "Ö±½ÓÊ¹ÓÃVPNÁªÍø"
+                print "直接使用VPN联网"
                 self.login(self.user, self.passwd, flag = 1)
             else:
-                print "ÏÈÁ¬½ÓÐ£Ô°Íø£¬¿´ÄÜ·ñ·ÃÎÊÍâÍø"
+                print "先连接校园网，看能否访问外网"
                 self.login(self.user, self.passwd, flag = 0)
-            #ÔÙ¼ì²âÒ»±éÊÇ·ñ³É¹¦ÁªÍø
+            #再检测一遍是否成功联网
             self.start(vpn)
             pass
         elif status == 1:
-            #²»¿É·ÃÎÊÄÚÍø£¬¿ÉÒÔ·ÃÎÊÍâÍø
-            print "ÒÑÁ¬Í¨ÍâÍø£¬²»ÄÜ·ÃÎÊÄÚÍø"
+            #不可访问内网，可以访问外网
+            print "已连通外网，不能访问内网"
             
         elif status == 2:
-            #¿ÉÒÔ·ÃÎÊÄÚÍø£¬²»¿É·ÃÎÊÍâÍø
+            #可以访问内网，不可访问外网
             self.logout()
             self.login(self.user, self.passwd, flag = 1)
             if vpn == "enable":
                 self.connectVPN(vpnname,vpnusername,vpnpassword)
                 self.start(vpn)
-            else if vpn == "disable":
+            elif vpn == "disable":
                 print "already connected to school, not connect vpn"
         elif status == 3:
             if vpn == "enable":
@@ -84,14 +84,14 @@ class CJLULogin:
                 self.login(self.user, self.passwd, flag = 1)
                 self.connectVPN(vpnname,vpnusername,vpnpassword)
                 self.start(vpn)
-            print "ÒÑÁ¬Í¨ÍâÍø £¬¿ÉÒÔ·ÃÎÊÄÚÍø"
-            #ÄÚÍøÍâÍø¶¼¿ÉÒÔ·ÃÎÊ  
+            print "已连通外网 ，可以访问内网"
+            #内网外网都可以访问
     # check network status
-    # ·µ»ØÂë£º 
-    #           0. ÄÚÍø²»Í¨£¬ÍâÍø²»Í¨
-    #           1. ÄÚÍø²»Í¨£¬ÍâÍøÍ¨
-    #           2. ÄÚÍøÍ¨£¬  ÍâÍø²»Í¨
-    #           3. ÄÚÍøÍ¨£¬  ÍâÍøÍ¨
+    # 返回码： 
+    #           0. 内网不通，外网不通
+    #           1. 内网不通，外网通
+    #           2. 内网通，  外网不通
+    #           3. 内网通，  外网通
     def check(self):
         print "check..."
         InnerUrl = "http://my.cjlu.edu.cn/"
@@ -126,7 +126,7 @@ class CJLULogin:
             
             
     # login
-    # »¥ÁªÍøµÇÂ¼ flag = 1, ·ñÔòÎª 0
+    # 互联网登录 flag = 1, 否则为 0
     def login(self,username,password,flag = 0):
         print "login..."
         url = "https://portal2.cjlu.edu.cn:801/eportal/?c=ACSetting&a=Login&wlanuserip="+self.localip+"&wlanacip=null&wlanacname=&port=&iTermType=1&mac=000000000000&ip="+self.localip+"&redirect=null"
@@ -184,18 +184,18 @@ class CJLULogin:
         
         if len(html) != 10677:
             print "logout error"
-    # Á¬½ÓËæeÐÐ »ò ÉÁÑ¶
-    # ÐèÒªÊÂÏÈÅäÖÃºÃVPN
-    # ÇëÊÂÏÈÔÚ±¾»ú´´½¨ºÃVPN£¬²ÅÄÜÓÃ´Ëº¯ÊýÆô¶¯
+    # 连接随e行 或 闪讯
+    # 需要事先配置好VPN
+    # 请事先在本机创建好VPN，才能用此函数启动
     def connectVPN(self, vpnname, vpnusername, vpnpassword):
-	if vpnname==None or vpnusername== None or vpnpassword==None:
-		print "no vpn"
-		return
+        if vpnname==None or vpnusername== None or vpnpassword==None:
+            print "no vpn"
+            return
         if os.name == 'nt':     # win32
             os.system("rasdial " + vpnname +" " + vpnusername + " " + vpnpassword)
         else:       #unix
             #os.system("pon " + vpnname)
-		pass
+            pass
         
     
 if __name__ == '__main__':
@@ -229,10 +229,10 @@ if __name__ == '__main__':
     cjlu = CJLULogin(username, password)
     
     if not defaultUseVPN == "":
-        print "ÓÅÏÈÊ¹ÓÃÍâÍø"
+        print "优先使用外网"
         cjlu.start("enable")
     else:
-        print "ÓÅÏÈÊ¹ÓÃÐ£Ô°Íø"
+        print "优先使用校园网"
         cjlu.start("disable")
     
     
