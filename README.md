@@ -4,13 +4,15 @@
 #### @author:arckalsun@gmail.com
 # 
 ### 命令行用法：
-` python AutoConnect.py username password vpnname vpnusername vpnpassword`
+` python AutoConnect.py username password [vpnname] [vpnusername] [vpnpassword]`
 #### 参数解释：
 * `username` 内网账号
 * `password` 内网密码
 * `vpnname` VPN名字
 * `vpnusername` VPN 账号，即外网账号
 * `vpnpassword` VPN 密码，即外网密码
+#### `username`和`password`为必选，如果只打算连接校园网，即不选择互联网登录，只需提供这两个参数即可，该情况适用于教职工用户，可以无视下面的VPN配置；如果是学生用户，需要提供 `[vpnname] [vpnusername] [vpnpassword]` 这三个选项
+#### 本程序默认是模拟随E行的联网方式，默认网关是随E行网关192.168.200.1
 ### 设置为开机启动
 
 * 1 先配置好VPN，这样可以不用随e行 或 闪讯来联网了。
